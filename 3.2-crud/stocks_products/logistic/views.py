@@ -15,12 +15,5 @@ class ProductViewSet(ModelViewSet):
 class StockViewSet(ModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-    filters = [filters.BaseFilterBackend]
-
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        products = self.request.query_params.get('products')
-        if products:
-            queryset = queryset.filter(products=products)
-        return queryset
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ['products']
